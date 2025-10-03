@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "My API", version = "1.0"), security = @SecurityRequirement(name = ""))
+@OpenAPIDefinition(info = @Info(title = "My API", version = "1.0"), security = @SecurityRequirement(name = "basicAuth"))
 @SecuritySchemes(@SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"))
 public class SwaggerConfig {
 }

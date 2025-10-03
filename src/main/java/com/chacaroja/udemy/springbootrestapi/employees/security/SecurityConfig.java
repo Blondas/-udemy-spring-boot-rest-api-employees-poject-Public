@@ -27,10 +27,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/h2-console/**") .permitAll()
-                        .requestMatchers(HttpMethod.POST, "/h2-console/**") .permitAll()
-                        .requestMatchers("/docs", "swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html") .permitAll()
-                        .requestMatchers("/docs", "swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html") .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/h2/**") .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/h2/**") .permitAll()
+                        .requestMatchers("/swagger", "swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html") .permitAll()
+                        .requestMatchers("/swagger", "swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html") .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/employees").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/api/employees/**").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.POST, "/api/employees").hasRole("MANAGER")
@@ -39,7 +39,6 @@ public class SecurityConfig {
         );
 
         http.httpBasic(AbstractHttpConfigurer::disable);
-
 
         http.httpBasic(Customizer.withDefaults());
 
@@ -57,7 +56,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
 
-        return (request, response, authException) -> {
+        return (_, response, _) -> {
             // don't send WWW-Authenticate header
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");

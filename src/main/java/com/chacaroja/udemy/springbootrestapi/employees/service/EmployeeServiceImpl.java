@@ -1,6 +1,6 @@
 package com.chacaroja.udemy.springbootrestapi.employees.service;
 
-import com.chacaroja.udemy.springbootrestapi.employees.dao.EmployeeDAO;
+import com.chacaroja.udemy.springbootrestapi.employees.dao.EmployeeRepository;
 import com.chacaroja.udemy.springbootrestapi.employees.entity.Employee;
 import com.chacaroja.udemy.springbootrestapi.employees.request.EmployeeRequest;
 import jakarta.transaction.Transactional;
@@ -11,40 +11,39 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(long id) {
-        return employeeDAO.findById(id);
+        return employeeRepository.findById(id).orElseThrow();
     }
 
     @Transactional
     @Override
     public Employee save(EmployeeRequest employeeRequest) {
-        return employeeDAO.save(convertToEmployee(0, employeeRequest));
+        return employeeRepository.save(convertToEmployee(0, employeeRequest));
     }
 
     @Transactional
     @Override
     public Employee update(long id, EmployeeRequest employeeRequest) {
-        Employee existingEmployee = employeeDAO.findById(id);
-        return employeeDAO.save(convertToEmployee(id, employeeRequest));
+        return employeeRepository.save(findById(id));
     }
 
     @Transactional
     @Override
     public void deleteById(long id) {
-        employeeDAO.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 
     @Override

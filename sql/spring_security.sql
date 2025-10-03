@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS authorities;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users
 (
     username VARCHAR(50)  NOT NULL,
@@ -7,9 +10,9 @@ CREATE TABLE users
 );
 
 INSERT INTO users VALUES
-('john', '{noop}password', TRUE),
-('mary', '{noop}password', TRUE),
-('susan', '{noop}password', TRUE);
+('john', '{bcrypt}$2a$12$iO.3YX.K.rg5RpilXPiTmeuS0M9C6R5e/GW9ghPDB6xxx4uVuKQlG', TRUE),
+('mary', '{bcrypt}$2a$12$iO.3YX.K.rg5RpilXPiTmeuS0M9C6R5e/GW9ghPDB6xxx4uVuKQlG', TRUE),
+('susan', '{bcrypt}$2a$12$iO.3YX.K.rg5RpilXPiTmeuS0M9C6R5e/GW9ghPDB6xxx4uVuKQlG', TRUE);
 
 CREATE TABLE `authorities`
 (

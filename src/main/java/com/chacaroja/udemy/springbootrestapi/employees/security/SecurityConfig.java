@@ -20,7 +20,17 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsManager(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+
+        userDetailsManager.setUsersByUsernameQuery(
+                "select user_id, password, active from system_users where user_id=?"
+        );
+
+        userDetailsManager.setAuthoritiesByUsernameQuery(
+                "select user_id, role from roles where user_id=?"
+        );
+
+        return userDetailsManager;
     }
 
     @Bean
